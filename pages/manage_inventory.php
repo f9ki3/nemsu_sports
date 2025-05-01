@@ -9,26 +9,51 @@
             width: 100%;
             table-layout: fixed;
         }
-        th, td {
-            word-wrap: break-word;
+        .action {
+            display: flex; 
+            justify-content: space-between;
         }
-    </style>
+        .width-85 {
+            width: 85%;
+        }
+        @media print {
+
+            th, td {
+                word-wrap: break-word;
+                font-size: 12px; /* Set font size to 12px */
+            }
+            .width-85 {
+                width: 100%;
+                font-size: 12px;
+            }
+            #navigation, #header, #top-bttom, #action, .action {
+                display: none;
+            }
+        }
+        </style>
+
+
 </head>
 <body>
     <div>
-        <?php include 'head_nav.php'; ?>
+    <?php include 'head_nav.php'; ?>
         <div style="height: 90vh;" class="d-flex flex-row">
-            <div style="width: 15%">
+            <div id="navigation" style="width: 15%">
                 <?php include 'navigation.php'; ?>
             </div>
-            <div style="width: 85%">
+            <div class="width-85">
                 <div class="container p-3">
-                <div class="d-flex justify-content-between align-items-center mb-4">
+                <div id="top" class="d-flex justify-content-between align-items-center mb-4">
                     <h3 class="fw-bold">Manage Inventory</h3>
                     <!-- Button trigger modal -->
-                    <button type="button" class="btn rounded-4 btn-outline-primary" data-bs-toggle="modal" data-bs-target="#addInventoryModal">
-                        Add Inventory
-                    </button>
+                    <div id="top-bttom">
+                        <button onclick="print()" type="button" class="btn rounded-4 btn-outline-success">
+                            Print Inventory
+                        </button>
+                        <button type="button" class="btn rounded-4 btn-outline-primary" data-bs-toggle="modal" data-bs-target="#addInventoryModal">
+                            Add Inventory
+                        </button>   
+                    </div>
 
                     <!-- Modal -->
                     <div class="modal mt-5 fade" id="addInventoryModal" tabindex="-1" aria-labelledby="addInventoryModalLabel" aria-hidden="true">
@@ -147,7 +172,7 @@
                                 <th style="width: 8%;"><a href="?sort_column=course_code&sort_order=<?= $next_sort_order ?>" style="color: black; text-decoration: none;">Course <?= $sort_column === 'course_code' ? ($sort_order === 'asc' ? '<i class="bi bi-arrow-up"></i>' : '<i class="bi bi-arrow-down"></i>') : '' ?></a></th>
                                 <th style="width: 10%;"><a href="?sort_column=equipment_code&sort_order=<?= $next_sort_order ?>" style="color: black; text-decoration: none;">Equip Code <?= $sort_column === 'equipment_code' ? ($sort_order === 'asc' ? '<i class="bi bi-arrow-up"></i>' : '<i class="bi bi-arrow-down"></i>') : '' ?></a></th>
                                 <th style="width: 11%;"><a href="?sort_column=borrow_date_time&sort_order=<?= $next_sort_order ?>" style="color: black; text-decoration: none;">Borrow/Return <?= $sort_column === 'borrow_date_time' ? ($sort_order === 'asc' ? '<i class="bi bi-arrow-up"></i>' : '<i class="bi bi-arrow-down"></i>') : '' ?></a></th>
-                                <th class="text-end" style="width: 15%;">Actions</th>
+                                <th id="action" class="text-end" style="width: 15%;">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -166,7 +191,7 @@
                                     echo "<td class='text-muted py-4'>{$inventory['course_code']}</td>";
                                     echo "<td class='text-muted py-4'>{$inventory['equipment_code']}</td>";
                                     echo "<td class='text-muted py-4'>{$borrow_date} - {$return_date}</td>";
-                                    echo "<td class='text-muted py-4 d-flex justify-content-end'>
+                                    echo "<td class='action text-muted py-4'>
                                         <a href='edit_inventory.php?id={$inventory['id']}' class='btn btn-sm text-primary me-2'>
                                             <i class='bi bi-pencil'></i> Edit
                                         </a>

@@ -9,26 +9,49 @@
             width: 100%;
             table-layout: fixed;
         }
-        th, td {
-            word-wrap: break-word;
+        .action {
+            display: flex; 
+            justify-content: space-between;
         }
-    </style>
+        .width-85 {
+            width: 85%;
+        }
+        @media print {
+
+            th, td {
+                word-wrap: break-word;
+                font-size: 12px; /* Set font size to 12px */
+            }
+            .width-85 {
+                width: 100%;
+                font-size: 12px;
+            }
+            #navigation, #header, #top-bttom, #action, .action {
+                display: none;
+            }
+        }
+        </style>
 </head>
 <body>
     <div>
-        <?php include 'head_nav.php'; ?>
+    <?php include 'head_nav.php'; ?>
         <div style="height: 90vh;" class="d-flex flex-row">
-            <div style="width: 15%">
+            <div id="navigation" style="width: 15%">
                 <?php include 'navigation.php'; ?>
             </div>
-            <div style="width: 85%">
+            <div class="width-85">
                 <div class="container p-3">
                 <div class="d-flex justify-content-between align-items-center mb-4">
                     <h3 class="fw-bold">Manage Campuses</h3>
                     <!-- Button trigger modal -->
-                    <button type="button" class="btn rounded-4 btn-outline-primary" data-bs-toggle="modal" data-bs-target="#addCampusModal">
-                        Add Campus
-                    </button>
+                    <div id="top-bttom">
+                        <button onclick="print()" type="button" class="btn rounded-4 btn-outline-success">
+                            Print Inventory
+                        </button>
+                        <button type="button" class="btn rounded-4 btn-outline-primary" data-bs-toggle="modal" data-bs-target="#addCampusModal">
+                            Add Campus
+                        </button>
+                    </div>
 
                     <!-- Modal -->
                     <div class="modal mt-5 fade" id="addCampusModal" tabindex="-1" aria-labelledby="addCampusModalLabel" aria-hidden="true">
@@ -93,7 +116,7 @@
                                 <th style="width: 10%;">Name</th>
                                 <th style="width: 10%;">Location</th>
                                 <th style="width: 30%;">Description</th>
-                                <th style="width: 10%;" class="text-end">Actions</th>
+                                <th id="action" style="width: 10%;" class="text-end">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -108,7 +131,7 @@
                                     echo "<td class='text-muted py-4'>{$campus['name']}</td>";
                                     echo "<td class='text-muted py-4'>{$campus['location']}</td>";
                                     echo "<td class='text-muted py-4'>{$campus['description']}</td>";
-                                    echo "<td class='text-end py-4'>
+                                    echo "<td class='action text-muted py-4'>
                                         <a href='edit_campus.php?id={$campus['id']}' class='btn btn-sm text-primary'><i class='bi bi-pencil'></i> Edit</a> | 
                                         <a href='delete_campus.php?id={$campus['id']}' class='btn btn-sm text-danger'><i class='bi bi-trash'></i> Delete</a>
                                     </td>";
