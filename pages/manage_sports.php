@@ -90,62 +90,64 @@
                 }
                 ?>
 
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <?php
-                            $sort_column = $_GET['sort'] ?? 'id';
-                            $sort_order = $_GET['order'] ?? 'asc';
-                            $new_order = $sort_order === 'asc' ? 'desc' : 'asc';
+                <div style="overflow-y: auto; max-height: 70vh;">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <?php
+                                $sort_column = $_GET['sort'] ?? 'id';
+                                $sort_order = $_GET['order'] ?? 'asc';
+                                $new_order = $sort_order === 'asc' ? 'desc' : 'asc';
 
-                            function get_sort_icon($column, $current_column, $current_order) {
-                                if ($column === $current_column) {
-                                    return $current_order === 'asc' ? '↑' : '↓';
+                                function get_sort_icon($column, $current_column, $current_order) {
+                                    if ($column === $current_column) {
+                                        return $current_order === 'asc' ? '↑' : '↓';
+                                    }
+                                    return '';
                                 }
-                                return '';
+                                ?>
+                                <th scope="col" style="width: 10%;">
+                                    <a href="?sort=id&order=<?= $new_order ?>" style="text-decoration: none; color: black;">
+                                        ID <?= $sort_column === 'id' ? ($sort_order === 'asc' ? '<i class="bi bi-arrow-up"></i>' : '<i class="bi bi-arrow-down"></i>') : '' ?>
+                                    </a>
+                                </th>
+                                <th scope="col" style="width: 30%;">
+                                    <a href="?sort=name&order=<?= $new_order ?>" style="text-decoration: none; color: black;">
+                                        Sports Name <?= $sort_column === 'name' ? ($sort_order === 'asc' ? '<i class="bi bi-arrow-up"></i>' : '<i class="bi bi-arrow-down"></i>') : '' ?>
+                                    </a>
+                                </th>
+                                <th scope="col" style="width: 40%;">
+                                    <a href="?sort=description&order=<?= $new_order ?>" style="text-decoration: none; color: black;">
+                                        Description <?= $sort_column === 'description' ? ($sort_order === 'asc' ? '<i class="bi bi-arrow-up"></i>' : '<i class="bi bi-arrow-down"></i>') : '' ?>
+                                    </a>
+                                </th>
+                                <th scope="col" style="width: 20%;" class="text-end">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php
+                            $query = "SELECT * FROM sports ORDER BY $sort_column $sort_order";
+                            $result = mysqli_query($conn, $query);
+
+                            if ($result && mysqli_num_rows($result) > 0) {
+                                while ($sport = mysqli_fetch_assoc($result)) {
+                                    echo "<tr>";
+                                    echo "<td class='text-muted py-3'>{$sport['id']}</td>";
+                                    echo "<td class='text-muted py-3'>{$sport['name']}</td>";
+                                    echo "<td class='text-muted py-3'>{$sport['description']}</td>";
+                                    echo "<td class='text-end py-3'>
+                                        <a href='edit_sport.php?id={$sport['id']}' class='btn btn-sm text-primary'><i class='bi bi-pencil'></i> Edit</a> | 
+                                        <a href='delete_sport.php?id={$sport['id']}' class='btn btn-sm text-danger'><i class='bi bi-trash'></i> Delete</a>
+                                    </td>";
+                                    echo "</tr>";
+                                }
+                            } else {
+                                echo "<tr><td colspan='4' class='text-center text-muted py-2'>No sports found</td></tr>";
                             }
                             ?>
-                            <th scope="col" style="width: 10%;">
-                                <a href="?sort=id&order=<?= $new_order ?>" style="text-decoration: none; color: black;">
-                                    ID <?= $sort_column === 'id' ? ($sort_order === 'asc' ? '<i class="bi bi-arrow-up"></i>' : '<i class="bi bi-arrow-down"></i>') : '' ?>
-                                </a>
-                            </th>
-                            <th scope="col" style="width: 30%;">
-                                <a href="?sort=name&order=<?= $new_order ?>" style="text-decoration: none; color: black;">
-                                    Sports Name <?= $sort_column === 'name' ? ($sort_order === 'asc' ? '<i class="bi bi-arrow-up"></i>' : '<i class="bi bi-arrow-down"></i>') : '' ?>
-                                </a>
-                            </th>
-                            <th scope="col" style="width: 40%;">
-                                <a href="?sort=description&order=<?= $new_order ?>" style="text-decoration: none; color: black;">
-                                    Description <?= $sort_column === 'description' ? ($sort_order === 'asc' ? '<i class="bi bi-arrow-up"></i>' : '<i class="bi bi-arrow-down"></i>') : '' ?>
-                                </a>
-                            </th>
-                            <th scope="col" style="width: 20%;" class="text-end">Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php
-                        $query = "SELECT * FROM sports ORDER BY $sort_column $sort_order";
-                        $result = mysqli_query($conn, $query);
-
-                        if ($result && mysqli_num_rows($result) > 0) {
-                            while ($sport = mysqli_fetch_assoc($result)) {
-                                echo "<tr>";
-                                echo "<td class='text-muted py-3'>{$sport['id']}</td>";
-                                echo "<td class='text-muted py-3'>{$sport['name']}</td>";
-                                echo "<td class='text-muted py-3'>{$sport['description']}</td>";
-                                echo "<td class='text-end py-3'>
-                                    <a href='edit_sport.php?id={$sport['id']}' class='btn btn-sm text-primary'><i class='bi bi-pencil'></i> Edit</a> | 
-                                    <a href='delete_sport.php?id={$sport['id']}' class='btn btn-sm text-danger'><i class='bi bi-trash'></i> Delete</a>
-                                </td>";
-                                echo "</tr>";
-                            }
-                        } else {
-                            echo "<tr><td colspan='4' class='text-center text-muted py-2'>No sports found</td></tr>";
-                        }
-                        ?>
-                    </tbody>
-                </table>
+                        </tbody>
+                    </table>
+                </div>
                 </div>
             </div>
         </div>

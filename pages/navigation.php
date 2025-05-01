@@ -50,7 +50,12 @@
             </a>
         </li>
         <li class="mb-3">
-            <a class="text-dark" href="./home.php" style="text-decoration: none;">
+            <a class="text-dark" href="./manage_awards.php" style="text-decoration: none;">
+            <i class="bi bi-trophy me-2"></i> Sports Award
+            </a>
+        </li>
+        <li class="mb-3">
+            <a class="text-dark" href="./champion.php" style="text-decoration: none;">
             <i class="bi bi-award me-2"></i> Overall Champion
             </a>
         </li>

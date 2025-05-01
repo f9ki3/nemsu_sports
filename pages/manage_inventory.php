@@ -134,54 +134,56 @@
                 $result = $stmt->get_result();
                 ?>
 
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th style="width: 5%;"><a href="?sort_column=id&sort_order=<?= $next_sort_order ?>" style="color: black; text-decoration: none;">ID <?= $sort_column === 'id' ? ($sort_order === 'asc' ? '<i class="bi bi-arrow-up"></i>' : '<i class="bi bi-arrow-down"></i>') : '' ?></a></th>
-                            <th style="width: 10%;"><a href="?sort_column=student_number&sort_order=<?= $next_sort_order ?>" style="color: black; text-decoration: none;">Student No. <?= $sort_column === 'student_number' ? ($sort_order === 'asc' ? '<i class="bi bi-arrow-up"></i>' : '<i class="bi bi-arrow-down"></i>') : '' ?></a></th>
-                            <th style="width: 9%;"><a href="?sort_column=person_incharge&sort_order=<?= $next_sort_order ?>" style="color: black; text-decoration: none;">In-Charge <?= $sort_column === 'person_incharge' ? ($sort_order === 'asc' ? '<i class="bi bi-arrow-up"></i>' : '<i class="bi bi-arrow-down"></i>') : '' ?></a></th>
-                            <th style="width: 10%;"><a href="?sort_column=equipment_name&sort_order=<?= $next_sort_order ?>" style="color: black; text-decoration: none;">Equipment<?= $sort_column === 'equipment_name' ? ($sort_order === 'asc' ? '<i class="bi bi-arrow-up"></i>' : '<i class="bi bi-arrow-down"></i>') : '' ?></a></th>
-                            <th style="width: 10%;"><a href="?sort_column=description&sort_order=<?= $next_sort_order ?>" style="color: black; text-decoration: none;">Description <?= $sort_column === 'description' ? ($sort_order === 'asc' ? '<i class="bi bi-arrow-up"></i>' : '<i class="bi bi-arrow-down"></i>') : '' ?></a></th>
-                            <th style="width: 8%;"><a href="?sort_column=student_name&sort_order=<?= $next_sort_order ?>" style="color: black; text-decoration: none;">Student<?= $sort_column === 'student_name' ? ($sort_order === 'asc' ? '<i class="bi bi-arrow-up"></i>' : '<i class="bi bi-arrow-down"></i>') : '' ?></a></th>
-                            <th style="width: 8%;"><a href="?sort_column=course_code&sort_order=<?= $next_sort_order ?>" style="color: black; text-decoration: none;">Course <?= $sort_column === 'course_code' ? ($sort_order === 'asc' ? '<i class="bi bi-arrow-up"></i>' : '<i class="bi bi-arrow-down"></i>') : '' ?></a></th>
-                            <th style="width: 10%;"><a href="?sort_column=equipment_code&sort_order=<?= $next_sort_order ?>" style="color: black; text-decoration: none;">Equip Code <?= $sort_column === 'equipment_code' ? ($sort_order === 'asc' ? '<i class="bi bi-arrow-up"></i>' : '<i class="bi bi-arrow-down"></i>') : '' ?></a></th>
-                            <th style="width: 11%;"><a href="?sort_column=borrow_date_time&sort_order=<?= $next_sort_order ?>" style="color: black; text-decoration: none;">Borrow/Return <?= $sort_column === 'borrow_date_time' ? ($sort_order === 'asc' ? '<i class="bi bi-arrow-up"></i>' : '<i class="bi bi-arrow-down"></i>') : '' ?></a></th>
-                            <th class="text-end" style="width: 15%;">Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php
-                        if ($result && mysqli_num_rows($result) > 0) {
-                            while ($inventory = mysqli_fetch_assoc($result)) {
-                                $borrow_date = date('Y-m-d', strtotime($inventory['borrow_date_time']));
-                                $return_date = $inventory['return_date_time'] ? date('Y-m-d', strtotime($inventory['return_date_time'])) : 'N/A';
-                                echo "<tr class=' text-muted' style='font-size: 0.9rem;'>";
-                                echo "<td class='text-muted py-4'>{$inventory['id']}</td>";
-                                echo "<td class='text-muted py-4'>{$inventory['student_number']}</td>";
-                                echo "<td class='text-muted py-4'>{$inventory['person_incharge']}</td>";
-                                echo "<td class='text-muted py-4'>{$inventory['equipment_name']} ({$inventory['quantity']})</td>";
-                                echo "<td class='text-muted py-4'>{$inventory['description']}</td>";
-                                echo "<td class='text-muted py-4'>{$inventory['student_name']}</td>";
-                                echo "<td class='text-muted py-4'>{$inventory['course_code']}</td>";
-                                echo "<td class='text-muted py-4'>{$inventory['equipment_code']}</td>";
-                                echo "<td class='text-muted py-4'>{$borrow_date} - {$return_date}</td>";
-                                echo "<td class='text-muted py-4 d-flex justify-content-end'>
-                                    <a href='edit_inventory.php?id={$inventory['id']}' class='btn btn-sm text-primary me-2'>
-                                        <i class='bi bi-pencil'></i> Edit
-                                    </a>
-                                    |
-                                    <a href='delete_inventory.php?id={$inventory['id']}' class='btn btn-sm text-danger ms-2'>
-                                        <i class='bi bi-trash'></i> Delete
-                                    </a>
-                                </td>";
-                                echo "</tr>";
+                <div style="overflow-y: auto;">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th style="width: 5%;"><a href="?sort_column=id&sort_order=<?= $next_sort_order ?>" style="color: black; text-decoration: none;">ID <?= $sort_column === 'id' ? ($sort_order === 'asc' ? '<i class="bi bi-arrow-up"></i>' : '<i class="bi bi-arrow-down"></i>') : '' ?></a></th>
+                                <th style="width: 10%;"><a href="?sort_column=student_number&sort_order=<?= $next_sort_order ?>" style="color: black; text-decoration: none;">Student No. <?= $sort_column === 'student_number' ? ($sort_order === 'asc' ? '<i class="bi bi-arrow-up"></i>' : '<i class="bi bi-arrow-down"></i>') : '' ?></a></th>
+                                <th style="width: 9%;"><a href="?sort_column=person_incharge&sort_order=<?= $next_sort_order ?>" style="color: black; text-decoration: none;">In-Charge <?= $sort_column === 'person_incharge' ? ($sort_order === 'asc' ? '<i class="bi bi-arrow-up"></i>' : '<i class="bi bi-arrow-down"></i>') : '' ?></a></th>
+                                <th style="width: 10%;"><a href="?sort_column=equipment_name&sort_order=<?= $next_sort_order ?>" style="color: black; text-decoration: none;">Equipment<?= $sort_column === 'equipment_name' ? ($sort_order === 'asc' ? '<i class="bi bi-arrow-up"></i>' : '<i class="bi bi-arrow-down"></i>') : '' ?></a></th>
+                                <th style="width: 10%;"><a href="?sort_column=description&sort_order=<?= $next_sort_order ?>" style="color: black; text-decoration: none;">Description <?= $sort_column === 'description' ? ($sort_order === 'asc' ? '<i class="bi bi-arrow-up"></i>' : '<i class="bi bi-arrow-down"></i>') : '' ?></a></th>
+                                <th style="width: 8%;"><a href="?sort_column=student_name&sort_order=<?= $next_sort_order ?>" style="color: black; text-decoration: none;">Student<?= $sort_column === 'student_name' ? ($sort_order === 'asc' ? '<i class="bi bi-arrow-up"></i>' : '<i class="bi bi-arrow-down"></i>') : '' ?></a></th>
+                                <th style="width: 8%;"><a href="?sort_column=course_code&sort_order=<?= $next_sort_order ?>" style="color: black; text-decoration: none;">Course <?= $sort_column === 'course_code' ? ($sort_order === 'asc' ? '<i class="bi bi-arrow-up"></i>' : '<i class="bi bi-arrow-down"></i>') : '' ?></a></th>
+                                <th style="width: 10%;"><a href="?sort_column=equipment_code&sort_order=<?= $next_sort_order ?>" style="color: black; text-decoration: none;">Equip Code <?= $sort_column === 'equipment_code' ? ($sort_order === 'asc' ? '<i class="bi bi-arrow-up"></i>' : '<i class="bi bi-arrow-down"></i>') : '' ?></a></th>
+                                <th style="width: 11%;"><a href="?sort_column=borrow_date_time&sort_order=<?= $next_sort_order ?>" style="color: black; text-decoration: none;">Borrow/Return <?= $sort_column === 'borrow_date_time' ? ($sort_order === 'asc' ? '<i class="bi bi-arrow-up"></i>' : '<i class="bi bi-arrow-down"></i>') : '' ?></a></th>
+                                <th class="text-end" style="width: 15%;">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php
+                            if ($result && mysqli_num_rows($result) > 0) {
+                                while ($inventory = mysqli_fetch_assoc($result)) {
+                                    $borrow_date = date('Y-m-d', strtotime($inventory['borrow_date_time']));
+                                    $return_date = $inventory['return_date_time'] ? date('Y-m-d', strtotime($inventory['return_date_time'])) : 'N/A';
+                                    echo "<tr class=' text-muted' style='font-size: 0.9rem;'>";
+                                    echo "<td class='text-muted py-4'>{$inventory['id']}</td>";
+                                    echo "<td class='text-muted py-4'>{$inventory['student_number']}</td>";
+                                    echo "<td class='text-muted py-4'>{$inventory['person_incharge']}</td>";
+                                    echo "<td class='text-muted py-4'>{$inventory['equipment_name']} ({$inventory['quantity']})</td>";
+                                    echo "<td class='text-muted py-4'>{$inventory['description']}</td>";
+                                    echo "<td class='text-muted py-4'>{$inventory['student_name']}</td>";
+                                    echo "<td class='text-muted py-4'>{$inventory['course_code']}</td>";
+                                    echo "<td class='text-muted py-4'>{$inventory['equipment_code']}</td>";
+                                    echo "<td class='text-muted py-4'>{$borrow_date} - {$return_date}</td>";
+                                    echo "<td class='text-muted py-4 d-flex justify-content-end'>
+                                        <a href='edit_inventory.php?id={$inventory['id']}' class='btn btn-sm text-primary me-2'>
+                                            <i class='bi bi-pencil'></i> Edit
+                                        </a>
+                                        |
+                                        <a href='delete_inventory.php?id={$inventory['id']}' class='btn btn-sm text-danger ms-2'>
+                                            <i class='bi bi-trash'></i> Delete
+                                        </a>
+                                    </td>";
+                                    echo "</tr>";
+                                }
+                            } else {
+                                echo "<tr class='py-4 text-muted' style='font-size: 0.9rem;'><td colspan='11' class='text-center'>No inventory found</td></tr>";
                             }
-                        } else {
-                            echo "<tr class='py-4 text-muted' style='font-size: 0.9rem;'><td colspan='11' class='text-center'>No inventory found</td></tr>";
-                        }
-                        ?>
-                    </tbody>
-                </table>
+                            ?>
+                        </tbody>
+                    </table>
+                </div>
 
                 </div>
             </div>

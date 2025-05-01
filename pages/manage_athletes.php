@@ -119,59 +119,61 @@
                 }
                 ?>
 
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th style="width: 5%;"><a href="?sort=id&order=<?php echo (isset($_GET['sort']) && $_GET['sort'] == 'id' && (!isset($_GET['order']) || $_GET['order'] == 'asc')) ? 'desc' : 'asc'; ?>" class="text-decoration-none text-black">ID <?php echo (isset($_GET['sort']) && $_GET['sort'] == 'id') ? (isset($_GET['order']) && $_GET['order'] == 'desc' ? '<i class="bi bi-arrow-down"></i>' : '<i class="bi bi-arrow-up"></i>') : ''; ?></a></th>
-                            <th style="width: 15%;"><a href="?sort=sport_id&order=<?php echo (isset($_GET['sort']) && $_GET['sort'] == 'sport_id' && (!isset($_GET['order']) || $_GET['order'] == 'asc')) ? 'desc' : 'asc'; ?>" class="text-decoration-none text-black">Sport <?php echo (isset($_GET['sort']) && $_GET['sort'] == 'sport_id') ? (isset($_GET['order']) && $_GET['order'] == 'desc' ? '<i class="bi bi-arrow-down"></i>' : '<i class="bi bi-arrow-up"></i>') : ''; ?></a></th>
-                            <th style="width: 20%;"><a href="?sort=athlete_name&order=<?php echo (isset($_GET['sort']) && $_GET['sort'] == 'athlete_name' && (!isset($_GET['order']) || $_GET['order'] == 'asc')) ? 'desc' : 'asc'; ?>" class="text-decoration-none text-black">Athlete <?php echo (isset($_GET['sort']) && $_GET['sort'] == 'athlete_name') ? (isset($_GET['order']) && $_GET['order'] == 'desc' ? '<i class="bi bi-arrow-down"></i>' : '<i class="bi bi-arrow-up"></i>') : ''; ?></a></th>
-                            <th style="width: 15%;"><a href="?sort=date_of_birth&order=<?php echo (isset($_GET['sort']) && $_GET['sort'] == 'date_of_birth' && (!isset($_GET['order']) || $_GET['order'] == 'asc')) ? 'desc' : 'asc'; ?>" class="text-decoration-none text-black">Date of Birth <?php echo (isset($_GET['sort']) && $_GET['sort'] == 'date_of_birth') ? (isset($_GET['order']) && $_GET['order'] == 'desc' ? '<i class="bi bi-arrow-down"></i>' : '<i class="bi bi-arrow-up"></i>') : ''; ?></a></th>
-                            <th style="width: 5%;"><a href="?sort=age&order=<?php echo (isset($_GET['sort']) && $_GET['sort'] == 'age' && (!isset($_GET['order']) || $_GET['order'] == 'asc')) ? 'desc' : 'asc'; ?>" class="text-decoration-none text-black">Age <?php echo (isset($_GET['sort']) && $_GET['sort'] == 'age') ? (isset($_GET['order']) && $_GET['order'] == 'desc' ? '<i class="bi bi-arrow-down"></i>' : '<i class="bi bi-arrow-up"></i>') : ''; ?></a></th>
-                            <th style="width: 10%;"><a href="?sort=t_shirt_size&order=<?php echo (isset($_GET['sort']) && $_GET['sort'] == 't_shirt_size' && (!isset($_GET['order']) || $_GET['order'] == 'asc')) ? 'desc' : 'asc'; ?>" class="text-decoration-none text-black">T-Shirt Size <?php echo (isset($_GET['sort']) && $_GET['sort'] == 't_shirt_size') ? (isset($_GET['order']) && $_GET['order'] == 'desc' ? '<i class="bi bi-arrow-down"></i>' : '<i class="bi bi-arrow-up"></i>') : ''; ?></a></th>
-                            <th style="width: 15%;"><a href="?sort=email&order=<?php echo (isset($_GET['sort']) && $_GET['sort'] == 'email' && (!isset($_GET['order']) || $_GET['order'] == 'asc')) ? 'desc' : 'asc'; ?>" class="text-decoration-none text-black">Email <?php echo (isset($_GET['sort']) && $_GET['sort'] == 'email') ? (isset($_GET['order']) && $_GET['order'] == 'desc' ? '<i class="bi bi-arrow-down"></i>' : '<i class="bi bi-arrow-up"></i>') : ''; ?></a></th>
-                            <th style="width: 15%;" class="text-end">Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php
-                        $sort_column = isset($_GET['sort']) ? $_GET['sort'] : 'id';
-                        $sort_order = isset($_GET['order']) && $_GET['order'] == 'desc' ? 'DESC' : 'ASC';
-                        $allowed_columns = ['id', 'sport_id', 'athlete_name', 'date_of_birth', 'age', 't_shirt_size', 'email'];
-                        if (!in_array($sort_column, $allowed_columns)) {
-                            $sort_column = 'id';
-                        }
-
-                        $query = "SELECT athletes.*, sports.name AS sport_name, 
-                                  CONCAT(athletes.last_name, ', ', athletes.first_name, ' ', athletes.middle_initial) AS athlete_name 
-                                  FROM athletes 
-                                  JOIN sports ON athletes.sport_id = sports.id 
-                                  ORDER BY $sort_column $sort_order";
-                        $stmt = $conn->prepare($query);
-                        $stmt->execute();
-                        $result = $stmt->get_result();
-
-                        if ($result && mysqli_num_rows($result) > 0) {
-                            while ($athlete = mysqli_fetch_assoc($result)) {
-                                echo "<tr>";
-                                echo "<td class='text-muted py-4'>{$athlete['id']}</td>";
-                                echo "<td class='text-muted py-4'>{$athlete['sport_name']}</td>";
-                                echo "<td class='text-muted py-4'>{$athlete['athlete_name']}</td>";
-                                echo "<td class='text-muted py-4'>{$athlete['date_of_birth']}</td>";
-                                echo "<td class='text-muted py-4'>{$athlete['age']}</td>";
-                                echo "<td class='text-muted py-4'>{$athlete['t_shirt_size']}</td>";
-                                echo "<td class='text-muted py-4'>{$athlete['email']}</td>";
-                                echo "<td class='text-end py-4'>
-                                    <a href='edit_athlete.php?id={$athlete['id']}' class='btn btn-sm text-primary'><i class='bi bi-pencil'></i> Edit</a> | 
-                                    <a href='delete_athlete.php?id={$athlete['id']}' class='btn btn-sm text-danger'><i class='bi bi-trash'></i> Delete</a>
-                                </td>";
-                                echo "</tr>";
+                <div style="overflow-y: auto; max-height: 70vh;">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th style="width: 5%;"><a href="?sort=id&order=<?php echo (isset($_GET['sort']) && $_GET['sort'] == 'id' && (!isset($_GET['order']) || $_GET['order'] == 'asc')) ? 'desc' : 'asc'; ?>" class="text-decoration-none text-black">ID <?php echo (isset($_GET['sort']) && $_GET['sort'] == 'id') ? (isset($_GET['order']) && $_GET['order'] == 'desc' ? '<i class="bi bi-arrow-down"></i>' : '<i class="bi bi-arrow-up"></i>') : ''; ?></a></th>
+                                <th style="width: 15%;"><a href="?sort=sport_id&order=<?php echo (isset($_GET['sort']) && $_GET['sort'] == 'sport_id' && (!isset($_GET['order']) || $_GET['order'] == 'asc')) ? 'desc' : 'asc'; ?>" class="text-decoration-none text-black">Sport <?php echo (isset($_GET['sort']) && $_GET['sort'] == 'sport_id') ? (isset($_GET['order']) && $_GET['order'] == 'desc' ? '<i class="bi bi-arrow-down"></i>' : '<i class="bi bi-arrow-up"></i>') : ''; ?></a></th>
+                                <th style="width: 20%;"><a href="?sort=athlete_name&order=<?php echo (isset($_GET['sort']) && $_GET['sort'] == 'athlete_name' && (!isset($_GET['order']) || $_GET['order'] == 'asc')) ? 'desc' : 'asc'; ?>" class="text-decoration-none text-black">Athlete <?php echo (isset($_GET['sort']) && $_GET['sort'] == 'athlete_name') ? (isset($_GET['order']) && $_GET['order'] == 'desc' ? '<i class="bi bi-arrow-down"></i>' : '<i class="bi bi-arrow-up"></i>') : ''; ?></a></th>
+                                <th style="width: 15%;"><a href="?sort=date_of_birth&order=<?php echo (isset($_GET['sort']) && $_GET['sort'] == 'date_of_birth' && (!isset($_GET['order']) || $_GET['order'] == 'asc')) ? 'desc' : 'asc'; ?>" class="text-decoration-none text-black">Date of Birth <?php echo (isset($_GET['sort']) && $_GET['sort'] == 'date_of_birth') ? (isset($_GET['order']) && $_GET['order'] == 'desc' ? '<i class="bi bi-arrow-down"></i>' : '<i class="bi bi-arrow-up"></i>') : ''; ?></a></th>
+                                <th style="width: 5%;"><a href="?sort=age&order=<?php echo (isset($_GET['sort']) && $_GET['sort'] == 'age' && (!isset($_GET['order']) || $_GET['order'] == 'asc')) ? 'desc' : 'asc'; ?>" class="text-decoration-none text-black">Age <?php echo (isset($_GET['sort']) && $_GET['sort'] == 'age') ? (isset($_GET['order']) && $_GET['order'] == 'desc' ? '<i class="bi bi-arrow-down"></i>' : '<i class="bi bi-arrow-up"></i>') : ''; ?></a></th>
+                                <th style="width: 10%;"><a href="?sort=t_shirt_size&order=<?php echo (isset($_GET['sort']) && $_GET['sort'] == 't_shirt_size' && (!isset($_GET['order']) || $_GET['order'] == 'asc')) ? 'desc' : 'asc'; ?>" class="text-decoration-none text-black">T-Shirt Size <?php echo (isset($_GET['sort']) && $_GET['sort'] == 't_shirt_size') ? (isset($_GET['order']) && $_GET['order'] == 'desc' ? '<i class="bi bi-arrow-down"></i>' : '<i class="bi bi-arrow-up"></i>') : ''; ?></a></th>
+                                <th style="width: 15%;"><a href="?sort=email&order=<?php echo (isset($_GET['sort']) && $_GET['sort'] == 'email' && (!isset($_GET['order']) || $_GET['order'] == 'asc')) ? 'desc' : 'asc'; ?>" class="text-decoration-none text-black">Email <?php echo (isset($_GET['sort']) && $_GET['sort'] == 'email') ? (isset($_GET['order']) && $_GET['order'] == 'desc' ? '<i class="bi bi-arrow-down"></i>' : '<i class="bi bi-arrow-up"></i>') : ''; ?></a></th>
+                                <th style="width: 15%;" class="text-end">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php
+                            $sort_column = isset($_GET['sort']) ? $_GET['sort'] : 'id';
+                            $sort_order = isset($_GET['order']) && $_GET['order'] == 'desc' ? 'DESC' : 'ASC';
+                            $allowed_columns = ['id', 'sport_id', 'athlete_name', 'date_of_birth', 'age', 't_shirt_size', 'email'];
+                            if (!in_array($sort_column, $allowed_columns)) {
+                                $sort_column = 'id';
                             }
-                        } else {
-                            echo "<tr><td colspan='10' class='text-center text-muted py-2'>No athletes found</td></tr>";
-                        }
-                        ?>
-                    </tbody>
-                </table>
+
+                            $query = "SELECT athletes.*, sports.name AS sport_name, 
+                                      CONCAT(athletes.last_name, ', ', athletes.first_name, ' ', athletes.middle_initial) AS athlete_name 
+                                      FROM athletes 
+                                      JOIN sports ON athletes.sport_id = sports.id 
+                                      ORDER BY $sort_column $sort_order";
+                            $stmt = $conn->prepare($query);
+                            $stmt->execute();
+                            $result = $stmt->get_result();
+
+                            if ($result && mysqli_num_rows($result) > 0) {
+                                while ($athlete = mysqli_fetch_assoc($result)) {
+                                    echo "<tr>";
+                                    echo "<td class='text-muted py-4'>{$athlete['id']}</td>";
+                                    echo "<td class='text-muted py-4'>{$athlete['sport_name']}</td>";
+                                    echo "<td class='text-muted py-4'>{$athlete['athlete_name']}</td>";
+                                    echo "<td class='text-muted py-4'>{$athlete['date_of_birth']}</td>";
+                                    echo "<td class='text-muted py-4'>{$athlete['age']}</td>";
+                                    echo "<td class='text-muted py-4'>{$athlete['t_shirt_size']}</td>";
+                                    echo "<td class='text-muted py-4'>{$athlete['email']}</td>";
+                                    echo "<td class='text-end py-4'>
+                                        <a href='edit_athlete.php?id={$athlete['id']}' class='btn btn-sm text-primary'><i class='bi bi-pencil'></i> Edit</a> | 
+                                        <a href='delete_athlete.php?id={$athlete['id']}' class='btn btn-sm text-danger'><i class='bi bi-trash'></i> Delete</a>
+                                    </td>";
+                                    echo "</tr>";
+                                }
+                            } else {
+                                echo "<tr><td colspan='10' class='text-center text-muted py-2'>No athletes found</td></tr>";
+                            }
+                            ?>
+                        </tbody>
+                    </table>
+                </div>
                 </div>
             </div>
         </div>

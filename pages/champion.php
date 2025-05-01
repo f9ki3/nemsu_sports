@@ -2,8 +2,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard</title>
+    <title>Overall Champions</title>
     <?php include '../header.php'; ?>
+    <style>
+        table {
+            width: 100%;
+            table-layout: fixed;
+        }
+        th, td {
+            word-wrap: break-word;
+        }
+    </style>
 </head>
 <body>
     <div>
@@ -13,43 +22,14 @@
                 <?php include 'navigation.php'; ?>
             </div>
             <div style="width: 85%">
-                <div class="container g-3 p-3">
-                    <h3 class="fw-bolder">Dashboard</h3>
-                    <div class="row mt-4">
-                        <?php 
-                        $cards = [
-                            ['title' => 'Sports', 'table' => 'sports', 'icon' => 'bi-trophy', 'bgColor' => 'orange'],
-                            ['title' => 'Campuses', 'table' => 'campus', 'icon' => 'bi-building', 'bgColor' => 'blue'],
-                            ['title' => 'Athletes', 'table' => 'athletes', 'icon' => 'bi-people', 'bgColor' => 'green'],
-                            ['title' => 'Coaches', 'table' => 'coaches', 'icon' => 'bi-person-badge', 'bgColor' => 'red']
-                        ];
-
-                        foreach ($cards as $key => $card) {
-                            $query = "SELECT COUNT(*) as count FROM " . $card['table'];
-                            $result = $conn->query($query);
-                            $row = $result->fetch_assoc();
-                            $cards[$key]['count'] = $row['count'];
-                        }
-
-                        foreach ($cards as $card): ?>
-                            <div class="col-md-3">
-                                <div class="border rounded-4 p-3 text-center position-relative">
-                                    <div class="card-body text-start">
-                                        <div class="d-flex justify-content-between">
-                                            <p class="card-title">
-                                                <?php echo $card['title']; ?>
-                                            </p>
-                                        </div>
-                                        <p class="card-text display-4 fw-bold"><?php echo $card['count']; ?></p>
-                                        <div style="background-color: <?php echo $card['bgColor']; ?>; border-radius: 100%; position: absolute; top: 10px; right: 10px;" class="p-3">
-                                            <i class="bi text-light <?php echo $card['icon']; ?> fs-4"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        <?php endforeach; ?>
-                    </div>
-
+                <div class="container p-3">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h3 class="fw-bold">Overall Champion</h3>
+                    <!-- Button trigger modal -->
+                    <button type="button" class="btn rounded-4 btn-outline-primary" data-bs-toggle="modal" data-bs-target="#addAwardModal">
+                        Print Champion
+                    </button>
+                </div>
 
                 <?php
                 // Fetch data for the chart
@@ -82,7 +62,7 @@
                 }
                 ?>
 
-                <div class="row mt-5">
+                <div class="row">
                     <div class="col-12 col-md-6">
                         <!-- Bar chart container -->
                         <div id="medalChart"></div>
@@ -91,7 +71,7 @@
                                 var options = {
                                     chart: {
                                         type: 'bar',
-                                        height: 450,
+                                        height: 600,
                                         toolbar: {
                                             tools: {
                                                 download: false // Disable download or save as PNG
@@ -169,6 +149,8 @@
                 </div>
             </div>
         </div>
+        <?php include 'footer.php'?>
     </div>
+
 </body>
 </html>
