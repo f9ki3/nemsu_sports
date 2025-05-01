@@ -111,37 +111,80 @@
                 }
                 ?>
 
+                <?php
+                // Determine sorting parameters
+                $sort_column = isset($_GET['sort_column']) ? $_GET['sort_column'] : 'id';
+                $sort_order = isset($_GET['sort_order']) && $_GET['sort_order'] === 'desc' ? 'desc' : 'asc';
+
+                // Toggle sort order for next click
+                $next_sort_order = $sort_order === 'asc' ? 'desc' : 'asc';
+
+                // Query with dynamic ORDER BY clause
+                $query = "SELECT coaches.*, sports.name AS sport_name, 
+                          CONCAT(coaches.firstname, ' ', coaches.lastname) AS fullname 
+                          FROM coaches 
+                          JOIN sports ON coaches.sport_id = sports.id 
+                          ORDER BY $sort_column $sort_order";
+                $stmt = $conn->prepare($query);
+                $stmt->execute();
+                $result = $stmt->get_result();
+                ?>
+
                 <table class="table">
                     <thead>
                         <tr>
-                            <th style="width: 5%;">ID</th>
-                            <th style="width: 15%;">Sport</th>
-                            <th style="width: 15%;">Last Name</th>
-                            <th style="width: 15%;">First Name</th>
-                            <th style="width: 10%;">Middle Initial</th>
-                            <th style="width: 15%;">Contact Number</th>
-                            <th style="width: 10%;">T-Shirt Size</th>
+                            <th style="width: 5%;">
+                                <a href="?sort_column=id&sort_order=<?= $next_sort_order ?>" style="text-decoration: none; color: black;">
+                                    ID
+                                    <?php if ($sort_column == 'id'): ?>
+                                        <i class="bi bi-arrow-<?= $sort_order === 'asc' ? 'up' : 'down' ?>"></i>
+                                    <?php endif; ?>
+                                </a>
+                            </th>
+                            <th style="width: 10%;">
+                                <a href="?sort_column=sport_name&sort_order=<?= $next_sort_order ?>" style="text-decoration: none; color: black;">
+                                    Sport
+                                    <?php if ($sort_column == 'sport_name'): ?>
+                                        <i class="bi bi-arrow-<?= $sort_order === 'asc' ? 'up' : 'down' ?>"></i>
+                                    <?php endif; ?>
+                                </a>
+                            </th>
+                            <th style="width: 20%;">
+                                <a href="?sort_column=fullname&sort_order=<?= $next_sort_order ?>" style="text-decoration: none; color: black;">
+                                    Full Name
+                                    <?php if ($sort_column == 'fullname'): ?>
+                                        <i class="bi bi-arrow-<?= $sort_order === 'asc' ? 'up' : 'down' ?>"></i>
+                                    <?php endif; ?>
+                                </a>
+                            </th>
+                            <th style="width: 10%;">
+                                <a href="?sort_column=contact_number&sort_order=<?= $next_sort_order ?>" style="text-decoration: none; color: black;">
+                                    Contact Number
+                                    <?php if ($sort_column == 'contact_number'): ?>
+                                        <i class="bi bi-arrow-<?= $sort_order === 'asc' ? 'up' : 'down' ?>"></i>
+                                    <?php endif; ?>
+                                </a>
+                            </th>
+                            <th style="width: 10%;">
+                                <a href="?sort_column=t_shirt_size&sort_order=<?= $next_sort_order ?>" style="text-decoration: none; color: black;">
+                                    T-Shirt Size
+                                    <?php if ($sort_column == 't_shirt_size'): ?>
+                                        <i class="bi bi-arrow-<?= $sort_order === 'asc' ? 'up' : 'down' ?>"></i>
+                                    <?php endif; ?>
+                                </a>
+                            </th>
                             <th style="width: 15%;" class="text-end">Actions</th>
                         </tr>
                     </thead>
                     <tbody>
                         <?php
-                        $query = "SELECT coaches.*, sports.name AS sport_name 
-                                  FROM coaches 
-                                  JOIN sports ON coaches.sport_id = sports.id 
-                                  ORDER BY id ASC";
-                        $stmt = $conn->prepare($query);
-                        $stmt->execute();
-                        $result = $stmt->get_result();
-
                         if ($result && mysqli_num_rows($result) > 0) {
                             while ($coach = mysqli_fetch_assoc($result)) {
+                                $fullname = "{$coach['firstname']} {$coach['lastname']}";
                                 echo "<tr>";
                                 echo "<td class='text-muted py-4'>{$coach['id']}</td>";
                                 echo "<td class='text-muted py-4'>{$coach['sport_name']}</td>";
-                                echo "<td class='text-muted py-4'>{$coach['lastname']}</td>";
-                                echo "<td class='text-muted py-4'>{$coach['firstname']}</td>";
-                                echo "<td class='text-muted py-4'>{$coach['middle_initial']}</td>";
+                                echo "<td class='text-muted py-4'>{$fullname}</td>";
                                 echo "<td class='text-muted py-4'>{$coach['contact_number']}</td>";
                                 echo "<td class='text-muted py-4'>{$coach['t_shirt_size']}</td>";
                                 echo "<td class='text-end py-4'>
@@ -151,7 +194,7 @@
                                 echo "</tr>";
                             }
                         } else {
-                            echo "<tr><td colspan='8' class='text-center text-muted py-2'>No coaches found</td></tr>";
+                            echo "<tr><td colspan='6' class='text-center text-muted py-2'>No coaches found</td></tr>";
                         }
                         ?>
                     </tbody>

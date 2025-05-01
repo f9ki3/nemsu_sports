@@ -4,7 +4,7 @@
 <div class="border-end d-flex flex-column justify-content-between" style="height: 90vh; background-color: white; overflow-y: auto;">
     <ul class="nav-list p-4" style="list-style-type: none; padding: 0; margin: 0; font-size: 1rem;">
         <div id="realtime-clock">
-            <h1 id="time"></h1>
+            <h2 class="fw-bolder" id="time"></h2>
             <p id="date"></p>
         </div>
         <script>
