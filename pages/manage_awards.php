@@ -172,6 +172,7 @@
                                         s.description AS sport_description,
                                         c.name AS campus_name,
                                         c.description AS campus_description,
+                                        sa.student_id,
                                         sa.gold,
                                         sa.silver,
                                         sa.bronze
@@ -195,7 +196,7 @@
                                     echo "<td class='text-center py-4' style='color: silver;'><i class='bi bi-star-fill'></i> {$award['silver']}</td>";
                                     echo "<td class='text-center py-4' style='color: #cd7f32;'><i class='bi bi-star-fill'></i> {$award['bronze']}</td>";
                                     echo "<td class='text-end py-4'>
-                                        <a href='print_award.php?id={$award['award_id']}' class='btn btn-sm text-primary'><i class='bi bi-printer'></i> Print Award</a> | 
+                                        <a href='print_award.php?id={$award['student_id']}' class='btn btn-sm text-primary'><i class='bi bi-printer'></i> Print Award</a> | 
                                         <a href='delete_award.php?id={$award['award_id']}' class='btn btn-sm text-danger'><i class='bi bi-trash'></i> Delete</a>
                                     </td>";
                                     echo "</tr>";

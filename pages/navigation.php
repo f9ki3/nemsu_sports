@@ -27,7 +27,7 @@
         </li>
         <li class="mb-3">
             <a class="text-dark" href="./manage_sports.php" style="text-decoration: none;">
-            <i class="bi bi-trophy me-2"></i> Manage Sports
+            <i class="bi bi-collection me-2"></i> Manage Sports
             </a>
         </li>
         <li class="mb-3">
@@ -58,6 +58,11 @@
         <li class="mb-3">
             <a class="text-dark" href="./champion.php" style="text-decoration: none;">
             <i class="bi bi-award me-2"></i> Overall Champion
+            </a>
+        </li>
+        <li class="mb-3">
+            <a class="text-dark" href="./settings.php" style="text-decoration: none;">
+            <i class="bi bi-gear me-2"></i> Settings
             </a>
         </li>
     </ul>

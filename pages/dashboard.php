@@ -127,7 +127,7 @@
                         </script>
                     </div>
                     <div class="col-12 col-md-6">
-                        <div style="overflow-y: auto; max-height: 70vh;">
+                        <div style="overflow-y: auto; max-height: 60vh;">
                             <table class="table">
                                 <thead>
                                     <tr>
