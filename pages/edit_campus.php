@@ -2,7 +2,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sports</title>
+    <title>Edit Campus</title>
     <?php include '../header.php'; ?>
     <style>
         table {
@@ -24,7 +24,7 @@
             <div style="width: 85%">
                 <div class="container p-3">
                 <div class="d-flex justify-content-between align-items-center mb-4">
-                    <h3 class="fw-bold">Edit Sports</h3>
+                    <h3 class="fw-bold">Edit Campus</h3>
                 </div>
                 <div style="overflow-y: auto; max-height: 70vh;">
                 <div class="row">
@@ -32,33 +32,37 @@
 
                                 $id = $_GET['id'];
 
-                                // Fetch the current data for the sport
-                                $query = "SELECT name, description FROM sports WHERE id = ?";
+                                // Fetch the current data for the campus
+                                $query = "SELECT name, location, description FROM campus WHERE id = ?";
                                 $stmt = $conn->prepare($query);
                                 $stmt->bind_param("i", $id);
                                 $stmt->execute();
                                 $result = $stmt->get_result();
-                                $sport = $result->fetch_assoc();
+                                $campus = $result->fetch_assoc();
 
-                                if (!$sport) {
-                                    echo "Sport not found.";
+                                if (!$campus) {
+                                    echo "Campus not found.";
                                     exit;
                                 }
                                 ?>
                             <div class="col-md-6">
-                                <form action="update_sport.php?id=<?php echo htmlspecialchars($id); ?>" method="post">
+                                <form action="update_campus.php?id=<?php echo htmlspecialchars($id); ?>" method="post">
                                     <input type="hidden" name="id" value="<?php echo htmlspecialchars($id); ?>">
                                     <div class="mb-3">
-                                        <label for="name" class="form-label">Sports Name:</label>
-                                        <input type="text" id="name" name="name" class="form-control" value="<?php echo htmlspecialchars($sport['name']); ?>" required>
+                                        <label for="name" class="form-label">Campus Name:</label>
+                                        <input type="text" id="name" name="name" class="form-control" value="<?php echo htmlspecialchars($campus['name']); ?>" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="location" class="form-label">Location:</label>
+                                        <input type="text" id="location" name="location" class="form-control" value="<?php echo htmlspecialchars($campus['location']); ?>" required>
                                     </div>
                                     <div class="mb-3">
                                         <label for="description" class="form-label">Description:</label>
-                                        <textarea id="description" name="description" class="form-control" rows="4" required><?php echo htmlspecialchars($sport['description']); ?></textarea>
+                                        <textarea id="description" name="description" class="form-control" rows="4" required><?php echo htmlspecialchars($campus['description']); ?></textarea>
                                     </div>
                                     <div>
                                         <button type="submit" class="btn btn-primary">Update</button>
-                                        <a href="manage_sports.php" class="btn text-primary border-primary">Cancel</a>
+                                        <a href="manage_campuses.php" class="btn text-primary border-primary">Cancel</a>
                                     </div>
                                 </form>
                             </div>
