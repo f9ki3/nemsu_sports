@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: May 01, 2025 at 05:42 PM
+-- Generation Time: May 02, 2025 at 10:16 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -49,7 +49,7 @@ INSERT INTO `athletes` (`id`, `sport_id`, `last_name`, `first_name`, `middle_ini
 (10, 23, 'Dela Cruz', 'Juan', 'L', '2004-06-08', 22, 'L', 'juan@gmail.com'),
 (11, 20, 'Alfred', 'John', 'R', '2000-06-07', 25, 'L', 'alfred@gmail.com'),
 (20, 20, 'Dele Cruz', 'Jenny', 'M', '2000-01-12', 20, 'L', 'Jenny@gmail.com'),
-(21, 20, 'Will', 'John Dee', 'M', '2001-02-13', 24, 'S', 'johndee@gmail.com');
+(22, 20, 'Mike', 'Will', 'L', '2008-01-31', 18, 'M', 'mikewill@gmail.com');
 
 -- --------------------------------------------------------
 
@@ -75,7 +75,8 @@ INSERT INTO `campus` (`id`, `name`, `location`, `description`) VALUES
 (4, 'Tagbina Campus', 'Tagbina', 'Focuses on research in renewable energy, food security, poverty alleviation, and coffee production.'),
 (5, 'Bislig Campus', 'Bislig City', 'Offers various academic programs and serves students in the southern part of Surigao del Sur.'),
 (6, 'Lianga Campus', 'Lianga', 'Provides educational opportunities to students in the central region of the province.'),
-(7, 'Cagwait Campus', 'Cagwait', 'Extends NEMSU\'s reach to the eastern coastal areas, offering programs tailored to the community\'s needs.');
+(7, 'Cagwait Campus', 'Cagwait', 'Extends NEMSU\'s reach to the eastern coastal areas, offering programs tailored to the community\'s needs.'),
+(9, 'test', 'test', 'test');
 
 -- --------------------------------------------------------
 
@@ -128,10 +129,30 @@ CREATE TABLE `inventory` (
 --
 
 INSERT INTO `inventory` (`id`, `person_incharge`, `equipment_name`, `quantity`, `description`, `student_name`, `student_number`, `course_code`, `equipment_code`, `borrow_date_time`, `return_date_time`) VALUES
-(4, 'Roger Rocker', 'Boxing Gloves', 2, 'Poor condition', 'Aj Onez', '212022', 'BSCS', '2345567212', '2024-10-23 02:31:00', '0000-00-00 00:00:00'),
+(4, 'Roger Rocker', 'Boxing Gloves', 2, 'Poor condition', 'Aj Onez', '212022', 'BSCS', '2345567212', '2024-10-23 02:31:00', '2025-05-08 13:33:00'),
 (7, 'Arnold Swagger', 'Ball', 2, 'Good Condition', 'Ronald Mc Donald', '61726817', 'BSIT', '12817962', '2025-05-01 17:14:00', '2025-05-02 17:14:00'),
 (10, 'Arnold Swagger', 'Baseball Bat', 2, 'Good Condition', 'Alfred', '192812', 'BSCS', '1231233', '2025-05-01 18:47:00', '2025-05-02 18:47:00'),
 (11, 'Arnold Swagger', 'Baseball', 2, 'Good Condition', 'Layla De Lima', '213123', '12312', '1233123', '2025-05-01 18:47:00', '2025-05-09 18:47:00');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `settings`
+--
+
+CREATE TABLE `settings` (
+  `id` int(11) NOT NULL,
+  `event_name` varchar(255) NOT NULL,
+  `location` varchar(255) NOT NULL,
+  `organizer_name` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `settings`
+--
+
+INSERT INTO `settings` (`id`, `event_name`, `location`, `organizer_name`) VALUES
+(1, 'Annual School Sports Meet 2025', 'Lianga', 'Jonathan Reyes');
 
 -- --------------------------------------------------------
 
@@ -150,13 +171,13 @@ CREATE TABLE `sports` (
 --
 
 INSERT INTO `sports` (`id`, `name`, `description`) VALUES
-(20, 'Baseball (Men)', 'a game played with a bat and ball by two teams of nine players each on a field with four bases that mark the course a runner must take to score.'),
+(20, 'Baseball (Men)', 'The game played with a bat and ball by two teams of nine players each on a field with four bases that mark the course a runner must take to score.'),
 (21, 'Basketball (3x3)', 'three players in each team as opposed to the five in traditional basketball games. There\'s only one substitute allowed on the bench in 3x3 basketball, who can enter the game anytime during a dead ball situation by tagging an outgoing player.'),
 (22, 'Basketball (4x4) ', 'Basketball (4x4) is a variation of basketball played with four players per team on the court, typically in a half-court or smaller full-court setting. It emphasizes speed, space, and simplified team play.'),
 (23, 'Tennis Table', 'a sport in which two or four players hit a lightweight ball, also known as the ping-pong ball, back and forth across a table using small rackets.'),
 (24, 'Football', 'a form of team game played in North America with an oval ball on a field marked out as a gridiron.'),
 (25, 'Volleyball', 'a game in which two teams use their hands to hit a large ball from one side of a high net to the other, without allowing the ball to touch the ground.'),
-(28, 'Track and Field', 'This sports run to laps\r\n');
+(31, 'Track and Field', 'It is a running sport race');
 
 -- --------------------------------------------------------
 
@@ -244,6 +265,12 @@ ALTER TABLE `inventory`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `settings`
+--
+ALTER TABLE `settings`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `sports`
 --
 ALTER TABLE `sports`
@@ -270,13 +297,13 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `athletes`
 --
 ALTER TABLE `athletes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT for table `campus`
 --
 ALTER TABLE `campus`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `coaches`
@@ -291,16 +318,22 @@ ALTER TABLE `inventory`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
+-- AUTO_INCREMENT for table `settings`
+--
+ALTER TABLE `settings`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
 -- AUTO_INCREMENT for table `sports`
 --
 ALTER TABLE `sports`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 
 --
 -- AUTO_INCREMENT for table `sports_award`
 --
 ALTER TABLE `sports_award`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT for table `users`
